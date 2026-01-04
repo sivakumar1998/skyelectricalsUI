@@ -1,0 +1,30 @@
+<div class="catalogue-container">
+    <div class="button-container">
+      <button class="explore-btn" (click)="exploreCatalogue()" [disabled]="loading">
+        <span *ngIf="!loading">Explore Catalogue</span>
+        <span *ngIf="loading">Loading...</span>
+      </button>
+    </div>
+  
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+  
+    <div *ngIf="catalogueData.length > 0" class="images-grid">
+      <div *ngFor="let item of catalogueData" class="catalogue-item">
+        <div class="image-wrapper">
+          <img [src]="item.imageUrl || item.image || item.url" 
+               [alt]="item.category || item.name || 'Catalogue item'"
+               (error)="handleImageError($event)"/>
+        </div>
+        <div class="item-info" *ngIf="item.category || item.name">
+          <h3>{{ item.category || item.name }}</h3>
+          <p *ngIf="item.description">{{ item.description }}</p>
+        </div>
+      </div>
+    </div>
+  
+    <div *ngIf="catalogueData.length === 0 && !loading && !error" class="empty-state">
+      <p>Click "Explore Catalogue" to view our products</p>
+    </div>
+  </div>
